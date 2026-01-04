@@ -9,12 +9,13 @@ import {
 } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useTranslation } from 'react-i18next';
+import { API_URL } from '../../../shared/api/http';
 
 export function LoginForm() {
     const { t } = useTranslation();
     const handleGoogleLogin = () => {
         const returnUrl = window.location.origin;
-        window.location.href = `/api/Auth/login?returnUrl=${encodeURIComponent(returnUrl)}`;
+        window.location.href = `${API_URL}/Auth/login?returnUrl=${encodeURIComponent(returnUrl)}`;
     };
 
     return (
