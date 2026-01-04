@@ -5,6 +5,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import { Box, CssBaseline, Menu, MenuItem, Divider, styled } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { auth, useAuthStore } from '../features/auth/store/authStore';
+import { API_URL } from '../shared/api/http';
 import { Header } from '../shared/layout/Header';
 import { Sidebar } from '../shared/layout/Sidebar';
 import { LogoutDialog } from '../shared/layout/LogoutDialog';
@@ -92,7 +93,7 @@ function RootLayout() {
     const handleLogoutConfirm = () => {
         setLogoutDialogOpen(false);
         auth.signOut();
-        window.location.href = 'http://localhost:5126/api/auth/logout';
+        window.location.href = `${API_URL}/auth/logout`;
     };
 
     return (

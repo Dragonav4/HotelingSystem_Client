@@ -1,5 +1,5 @@
 // src/shared/api/interceptors.ts
-import { http } from './http'
+import { http, API_URL } from './http'
 import { auth } from '../../features/auth/store/authStore'
 
 http.interceptors.request.use(config => {
@@ -17,12 +17,12 @@ http.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             auth.signOut();
 
-            const isListPage = ['/', '/desks', '/reservations','/reservations/'].includes(window.location.pathname);
+            const isListPage = ['/', '/desks', '/reservations', '/reservations/'].includes(window.location.pathname);
             const isReservationView = /^\/reservations\/[^/]+$/.test(window.location.pathname);
             const isPublicOrView = isListPage || isReservationView
             if (!isPublicOrView) {
                 const returnUrl = window.location.origin;
-                window.location.href = `http://localhost:5126/api/auth/login?returnUrl=${encodeURIComponent(returnUrl)}`;
+                window.location.href = `${API_URL}/auth/login?returnUrl=${encodeURIComponent(returnUrl)}`;
             }
         }
         return Promise.reject(error);
