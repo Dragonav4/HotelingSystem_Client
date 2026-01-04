@@ -1,0 +1,62 @@
+{
+  "common": {
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "yes": "Yes",
+    "no": "No",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "Error",
+    "view": "View",
+    "logout": "Logout",
+    "login": "Login",
+    "options": "Options",
+    "id": "Id",
+    "saving": "Saving..."
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back",
+    "signInWithGoogle": "Sign in with Google",
+    "noAccount": "No account?",
+    "signUp": "Sign up",
+    "confirmLogout": "Confirm Logout",
+    "areYouSureLogout": "Are you sure you want to log out?",
+    "logoutForm": "Logout Form"
+  },
+  "desk": {
+    "title": "Desk",
+    "listTitle": "Desks",
+    "createTitle": "Create New Desk",
+    "editTitle": "Edit Desk",
+    "number": "Desk Number",
+    "floor": "Floor",
+    "dualMonitor": "Dual Monitor",
+    "standingDesk": "Standing Desk",
+    "deleteConfirm": "Delete desk {{number}}?",
+    "failedToCreate": "Failed to create desk",
+    "creating": "Creating...",
+    "updateDesk": "Update Desk",
+    "createDesk": "Create Desk"
+  },
+  "reservation": {
+    "title": "Reservation",
+    "listTitle": "Reservations",
+    "createTitle": "Create Reservation",
+    "editTitle": "Edit Reservation",
+    "date": "Date",
+    "deleteConfirm": "Delete reservation {{id}}?",
+    "selectDesk": "Select Desk",
+    "chooseAvailableDesk": "Choose an available desk",
+    "reservedBy": "Reserved by",
+    "bookDesk": "Book Desk",
+    "updateReservation": "Update Reservation",
+    "createReservation": "Create reservation",
+    "reservationId": "Reservation Id"
+  },
+  "layout": {
+    "appTitle": "The best workplace booking system",
+    "toggleTheme": "Toggle Theme"
+  }
+}

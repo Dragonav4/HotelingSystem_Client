@@ -1,73 +1,116 @@
-# React + TypeScript + Vite
+# Hoteling System - Web Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the modern, type-safe frontend implementation of the Hoteling System, built with React and TypeScript.
 
-Currently, two official plugins are available:
+## Technologies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - The library for web and native user interfaces.
+- **TypeScript** - Strongly typed programming language for better developer experience.
+- **Vite** - Next-generation frontend tooling for fast builds and HMR.
+- **TanStack Query (v5)** - Powerful asynchronous state management for TS/JS.
+- **TanStack Router** - Fully type-safe router for React.
+- **Axios** - Promise-based HTTP client with request/response interceptors.
+- **Material UI (MUI) v7** - Comprehensive suite of UI tools to implement design systems.
+- **React Hook Form & Zod** - Performant form management and schema-based validation.
+- **i18next** - Internationalization framework.
+- **Zustand** - Light, fast, and scalable bearbones state-management.
 
-## React Compiler
+## Installation and Configuration
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
 
-## Expanding the ESLint configuration
+### Setup
+1. Clone the repository and navigate to the project directory:
+   ```bash
+   cd hoteling-web
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file in the root directory (copy from existing configuration or create new):
+   ```env
+   VITE_API_URL=http://localhost:5126/api
+   ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Running the Project
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Start the development server:
+```bash
+npm run dev
+```
+The application will be available at: `http://localhost:5173`
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Structure
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The project follows a feature-based modular architecture:
+
+- `src/app` - Application core setup (Query Client, Router, Theme, Contexts).
+- `src/features` - Encapsulated business logic by domain:
+  - `auth` - Authentication logic, store, and views.
+  - `desks` - Desk management and list views.
+  - `reservations` - Reservation workflows.
+- `src/shared` - Reusable architecture and components:
+  - `api` - Axios instance and interceptors for auth headers.
+  - `components` - Shared UI elements (buttons, loaders, etc.).
+  - `lib/crud` - Generic logic to generate CRUD modules and queries.
+- `src/routes` - Type-safe route definitions.
+- `src/locales` - Multi-language support (EN, PL).
+
+## Data Flow
+
+The application uses a centralized CRUD logic that connects UI components to the API layer via TanStack Query.
+
+### 1. Fetching Data (Get All / List)
+Used in `DesksListView` and `ReservationsListView`.
+
+```mermaid
+sequenceDiagram
+    participant UI as FeatureListView
+    participant Q as TanStack Query
+    participant API as FeatureApi
+    participant H as Axios Client
+    participant B as Backend API
+
+    UI->>Q: useSuspenseQuery(getAll)
+    Q->>API: getAll({ page, size })
+    API->>H: GET /endpoint?skip=X&take=Y
+    H->>B: HTTP Request (+Auth Cookie/Header)
+    B-->>H: JSON Data (items, totalCount, actions)
+    H-->>API: Typed Response
+    API-->>Q: Result
+    Q-->>UI: Cache & Render State
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Mutating Data (Create / CreateAsync)
+Used in `DeskCreateView` and `ReservationCreateView`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```mermaid
+sequenceDiagram
+    participant UI as FeatureView
+    participant Form as FeatureForm
+    participant M as useMutation
+    participant API as FeatureApi
+    participant B as Backend API
+    participant QC as QueryClient
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+    UI->>Form: Submit Data
+    Form->>M: mutate(payload)
+    M->>API: create(payload)
+    API->>B: POST /endpoint payload
+    B-->>API: 201 Created / 200 OK
+    API-->>M: Parsed Reservation/Desk
+    M->>QC: Invalidate ["feature", "list"]
+    M->>UI: Navigate to View/List
+    QC->>UI: Background Refetch
 ```
+
+## Authentication
+
+Authentication is handled via Google OAuth 2.0.
+1. The user is redirected to the backend login endpoint.
+2. After successful authentication, a secure cookie is established.
+3. The `interceptors.ts` in the shared API layer ensures all requests are authenticated.
+4. If the session expires (401), the app automatically handles logout and redirects to the login page.

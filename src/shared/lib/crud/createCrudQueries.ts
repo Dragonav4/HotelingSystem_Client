@@ -1,7 +1,8 @@
 import { queryOptions } from '@tanstack/react-query'
+import { queryClient } from '../../../app/queryClient'
 
 export interface CrudApi<T, CreateDto, UpdateDto> {
-    getAll(): Promise<{ items: T[]; actions: number }>
+    getAll(params?: { page: number; size: number }): Promise<{ items: T[]; actions: number; totalCount: number }>
     get(id: string): Promise<T>
     create(data: CreateDto): Promise<T & { id: string }>
     update(id: string, data: UpdateDto): Promise<T>
@@ -13,10 +14,10 @@ export function createCrudQueries<T, CreateDto, UpdateDto>(
     api: CrudApi<T, CreateDto, UpdateDto>,
 ) {
     return {
-        getAll: () =>
+        getAll: (params?: { page: number; size: number }) =>
             queryOptions({
-                queryKey: [name, 'list'],
-                queryFn: api.getAll,
+                queryKey: params ? [name, 'list', params] : [name, 'list'],
+                queryFn: () => api.getAll(params!),
             }),
 
         getById: (id: string) =>
@@ -26,15 +27,25 @@ export function createCrudQueries<T, CreateDto, UpdateDto>(
             }),
         create: {
             mutationFn: (data: CreateDto) => api.create(data),
+            onSuccess: (_data: T, _variables: CreateDto, _context: unknown) => {
+                queryClient.invalidateQueries({ queryKey: [name, 'list'] })
+            },
         },
 
         update: {
             mutationFn: ({ id, data }: { id: string; data: UpdateDto }) =>
                 api.update(id, data),
+            onSuccess: (_data: T, variables: { id: string; data: UpdateDto }, _context: unknown) => {
+                queryClient.invalidateQueries({ queryKey: [name, 'list'] })
+                queryClient.invalidateQueries({ queryKey: [name, variables.id] })
+            },
         },
 
         delete: {
             mutationFn: (id: string) => api.delete(id),
+            onSuccess: (_data: void, _variables: string, _context: unknown) => {
+                queryClient.invalidateQueries({ queryKey: [name, 'list'] })
+            },
         },
     }
 }

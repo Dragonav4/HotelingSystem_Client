@@ -34,9 +34,23 @@ export function createCrudModule<T, CreateDto, UpdateDto>({
     const listRoute = createRoute({
         getParentRoute: () => publicBase,
         path: '/',
-        loader: ({ context }) =>
-            context.queryClient.ensureQueryData(queries.getAll()),
+        validateSearch: (search: Record<string, unknown>) => ({
+            page: Number(search.page ?? 0),
+            size: Number(search.size ?? 10),
+        }),
+        loader: ({ context, search }: any) =>
+            context.queryClient.ensureQueryData(queries.getAll(search)),
         component: () => <views.List />,
+    })
+
+    const viewRoute = createRoute({
+        getParentRoute: () => publicBase,
+        path: '$id',
+        loader: ({ context, params }) =>
+            context.queryClient.ensureQueryData(
+                queries.getById(params.id),
+            ),
+        component: () => <views.View />,
     })
 
     /* ---------- PROTECTED ---------- */
@@ -44,16 +58,6 @@ export function createCrudModule<T, CreateDto, UpdateDto>({
     const protectedBase = createRoute({
         getParentRoute: () => protectedRoute,
         path: name,
-    })
-
-    const viewRoute = createRoute({
-        getParentRoute: () => protectedBase,
-        path: '$id',
-        loader: ({ context, params }) =>
-            context.queryClient.ensureQueryData(
-                queries.getById(params.id),
-            ),
-        component: () => <views.View />,
     })
 
     const createRoute_ = createRoute({
@@ -68,6 +72,11 @@ export function createCrudModule<T, CreateDto, UpdateDto>({
         component: () => <views.Edit />,
     })
 
+    const routesTree = {
+        public: publicBase,
+        protected: protectedBase,
+    }
+
     return {
         id: name,
         routes: {
@@ -76,14 +85,7 @@ export function createCrudModule<T, CreateDto, UpdateDto>({
             create: createRoute_,
             edit: editRoute,
         },
-        routesTree: {
-            public: publicBase.addChildren([listRoute]),
-            protected: protectedBase.addChildren([
-                viewRoute,
-                createRoute_,
-                editRoute,
-            ]),
-        },
+        routesTree,
         queries,
     }
 }

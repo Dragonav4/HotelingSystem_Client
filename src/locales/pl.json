@@ -1,0 +1,62 @@
+{
+  "common": {
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "back": "Wróć",
+    "yes": "Tak",
+    "no": "Nie",
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "loading": "Ładowanie...",
+    "error": "Błąd",
+    "view": "Widok",
+    "logout": "Wyloguj",
+    "login": "Zaloguj",
+    "options": "Opcje",
+    "id": "Id",
+    "saving": "Zapisywanie..."
+  },
+  "auth": {
+    "welcomeBack": "Witaj ponownie",
+    "signInWithGoogle": "Zaloguj się przez Google",
+    "noAccount": "Nie masz konta?",
+    "signUp": "Zarejestruj się",
+    "confirmLogout": "Potwierdź wylogowanie",
+    "areYouSureLogout": "Czy na pewno chcesz się wylogować?",
+    "logoutForm": "Formularz wylogowania"
+  },
+  "desk": {
+    "title": "Biurko",
+    "listTitle": "Biurka",
+    "createTitle": "Dodaj nowe biurko",
+    "editTitle": "Edytuj biurko",
+    "number": "Numer biurka",
+    "floor": "Piętro",
+    "dualMonitor": "Podwójny monitor",
+    "standingDesk": "Biurko do pracy na stojąco",
+    "deleteConfirm": "Usunąć biurko {{number}}?",
+    "failedToCreate": "Nie udało się utworzyć biurka",
+    "creating": "Tworzenie...",
+    "updateDesk": "Aktualizuj biurko",
+    "createDesk": "Dodaj biurko"
+  },
+  "reservation": {
+    "title": "Rezerwacja",
+    "listTitle": "Rezerwacje",
+    "createTitle": "Utwórz rezerwację",
+    "editTitle": "Edytuj rezerwację",
+    "date": "Data",
+    "deleteConfirm": "Usunąć rezerwację {{id}}?",
+    "selectDesk": "Wybierz biurko",
+    "chooseAvailableDesk": "Wybierz dostępne biurko",
+    "reservedBy": "Zarezerwowane przez",
+    "bookDesk": "Zarezerwuj biurko",
+    "updateReservation": "Aktualizuj rezerwację",
+    "createReservation": "Utwórz rezerwację",
+    "reservationId": "Id rezerwacji"
+  },
+  "layout": {
+    "appTitle": "Najlepszy system rezerwacji miejsc pracy",
+    "toggleTheme": "Przełącz motyw"
+  }
+}
