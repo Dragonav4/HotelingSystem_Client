@@ -55,6 +55,17 @@
     "createReservation": "Create reservation",
     "reservationId": "Reservation Id"
   },
+  "user": {
+    "title": "User",
+    "listTitle": "Users",
+    "createTitle": "Create New User",
+    "editTitle": "Edit User",
+    "username": "Username",
+    "email": "Email",
+    "role": "Role",
+    "updateUser": "Update User",
+    "createUser": "Create User"
+  },
   "layout": {
     "appTitle": "The best workplace booking system",
     "toggleTheme": "Toggle Theme"

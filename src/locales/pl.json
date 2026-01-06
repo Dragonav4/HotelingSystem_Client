@@ -55,6 +55,17 @@
     "createReservation": "Utwórz rezerwację",
     "reservationId": "Id rezerwacji"
   },
+  "user": {
+    "title": "Użytkownik",
+    "listTitle": "Użytkownicy",
+    "createTitle": "Dodaj nowego użytkownika",
+    "editTitle": "Edytuj użytkownika",
+    "username": "Nazwa użytkownika",
+    "email": "Email",
+    "role": "Rola",
+    "updateUser": "Aktualizuj użytkownika",
+    "createUser": "Dodaj użytkownika"
+  },
   "layout": {
     "appTitle": "Najlepszy system rezerwacji miejsc pracy",
     "toggleTheme": "Przełącz motyw"
