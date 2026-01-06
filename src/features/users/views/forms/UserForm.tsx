@@ -95,7 +95,6 @@ export function UserForm({
                                     required
                                     fullWidth
                                 >
-                                    <MenuItem value="Guest">Guest</MenuItem>
                                     <MenuItem value="Employee">Employee</MenuItem>
                                     <MenuItem value="Admin">Admin</MenuItem>
                                 </TextField>
