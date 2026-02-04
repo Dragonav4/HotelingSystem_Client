@@ -1,4 +1,4 @@
-import { createCrudModule } from '../../../libs/web-core'
+import { createCrudModule } from '../../shared/lib/crud/createCrudModule'
 import { desksApi } from './api/api'
 import { queryClient } from '../../app/queryClient'
 import { publicRoute } from '../../routes/public'

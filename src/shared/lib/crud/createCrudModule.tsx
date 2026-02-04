@@ -1,7 +1,5 @@
 import * as React from 'react'
 import { createRoute } from '@tanstack/react-router'
-import { publicRoute } from '../../../routes/public'
-import { protectedRoute } from '../../../routes/protected'
 import { createCrudQueries, type CrudApi } from './createCrudQueries'
 
 type CrudViews = {
@@ -15,19 +13,25 @@ type CreateCrudModuleParams<T, CreateDto, UpdateDto> = {
     name: string
     api: CrudApi<T, CreateDto, UpdateDto>
     views: CrudViews
+    queryClient?: any
+    parentRoutes: {
+        public: any
+        protected: any
+    }
 }
 
 export function createCrudModule<T, CreateDto, UpdateDto>({
     name,
     api,
     views,
+    parentRoutes,
 }: CreateCrudModuleParams<T, CreateDto, UpdateDto>) {
     const queries = createCrudQueries<T, CreateDto, UpdateDto>(name, api)
 
     /* ---------- PUBLIC ---------- */
 
     const publicBase = createRoute({
-        getParentRoute: () => publicRoute,
+        getParentRoute: () => parentRoutes.public,
         path: name,
     })
 
@@ -46,7 +50,7 @@ export function createCrudModule<T, CreateDto, UpdateDto>({
     const viewRoute = createRoute({
         getParentRoute: () => publicBase,
         path: '$id',
-        loader: ({ context, params }) =>
+        loader: ({ context, params }: any) =>
             context.queryClient.ensureQueryData(
                 queries.getById(params.id),
             ),
@@ -56,7 +60,7 @@ export function createCrudModule<T, CreateDto, UpdateDto>({
     /* ---------- PROTECTED ---------- */
 
     const protectedBase = createRoute({
-        getParentRoute: () => protectedRoute,
+        getParentRoute: () => parentRoutes.protected,
         path: name,
     })
 
