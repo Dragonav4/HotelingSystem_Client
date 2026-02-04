@@ -11,7 +11,11 @@ export const reservationsApi = {
         const skip = page * size
         const take = size
         const r = await http.get('/reservations', { params: { skip, take } })
-        return r.data
+        return {
+            items: r.data?.items ?? [],
+            totalCount: r.data?.totalCount ?? 0,
+            actions: r.data?.actions ?? 0
+        }
     },
     
 

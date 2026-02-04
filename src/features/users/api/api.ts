@@ -12,7 +12,11 @@ export const usersApi = {
         const skip = page * size
         const take = size
         const r = await http.get('/users', { params: { skip, take } })
-        return r.data
+        return {
+            items: r.data?.items ?? [],
+            totalCount: r.data?.totalCount ?? 0,
+            actions: r.data?.actions ?? 0
+        }
     },
 
     async get(id: string): Promise<User> {

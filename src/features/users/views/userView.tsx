@@ -13,7 +13,7 @@ export default function UserView() {
     const { id } = userModule.routes.view.useParams()
     const { data: user } = useSuspenseQuery(userModule.queries.getById(id)) as any
     const currentUser = useAuthStore(s => s.user)
-    const isAdmin = currentUser?.role === 'Admin'
+    const isAdmin = currentUser?.role === 2
     const isAuth = !!currentUser
 
     if (!isAdmin) return null

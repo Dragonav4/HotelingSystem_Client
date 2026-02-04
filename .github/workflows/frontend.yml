@@ -2,7 +2,7 @@ name: Deploy Frontend to Cloud Run
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "dev", "main-test-ci-cd" ]
   workflow_dispatch:
 
 env:

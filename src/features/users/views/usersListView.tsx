@@ -31,7 +31,7 @@ export function UsersListView() {
     const { data } = useSuspenseQuery(userModule.queries.getAll({ page, size })) as any
 
     const user = useAuthStore(s => s.user)
-    const isAdmin = user?.role === 'Admin'
+    const isAdmin = user?.role === 2
     const isAuth = !!user
 
     if (!isAdmin) return null

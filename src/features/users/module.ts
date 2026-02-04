@@ -1,5 +1,8 @@
-import { createCrudModule } from '../../shared/lib/crud/createCrudModule'
+import { createCrudModule } from '../../../libs/web-core'
 import { usersApi } from './api/api'
+import { queryClient } from '../../app/queryClient'
+import { publicRoute } from '../../routes/public'
+import { protectedRoute } from '../../routes/protected'
 import {
     UsersListView,
     UserView,
@@ -15,5 +18,10 @@ export const userModule = createCrudModule({
         View: UserView,
         Create: UserCreateView,
         Edit: UserEditView,
+    },
+    queryClient,
+    parentRoutes: {
+        public: publicRoute,
+        protected: protectedRoute,
     },
 })

@@ -1,5 +1,8 @@
-import { createCrudModule } from '../../shared/lib/crud/createCrudModule'
+import { createCrudModule } from '../../../libs/web-core'
 import { reservationsApi } from './api/api'
+import { queryClient } from '../../app/queryClient'
+import { publicRoute } from '../../routes/public'
+import { protectedRoute } from '../../routes/protected'
 import ReservationCreateView from './views/reservationCreateView'
 import ReservationView from './views/reservationView'
 import type { Reservation, ReservationCreateDto, ReservationUpdateDto } from './types/types'
@@ -15,5 +18,10 @@ export const reservationModule = createCrudModule<Reservation, ReservationCreate
         View: ReservationView,
         Create: ReservationCreateView,
         Edit: ReservationEditView,
+    },
+    queryClient,
+    parentRoutes: {
+        public: publicRoute,
+        protected: protectedRoute,
     },
 })

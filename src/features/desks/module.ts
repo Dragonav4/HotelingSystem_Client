@@ -1,5 +1,8 @@
-import { createCrudModule } from '../../shared/lib/crud/createCrudModule'
+import { createCrudModule } from '../../../libs/web-core'
 import { desksApi } from './api/api'
+import { queryClient } from '../../app/queryClient'
+import { publicRoute } from '../../routes/public'
+import { protectedRoute } from '../../routes/protected'
 import {
     DesksListView,
     DeskView,
@@ -15,5 +18,10 @@ export const desksModule = createCrudModule({
         View: DeskView,
         Create: DeskCreateView,
         Edit: DeskEditView,
+    },
+    queryClient,
+    parentRoutes: {
+        public: publicRoute,
+        protected: protectedRoute,
     },
 })

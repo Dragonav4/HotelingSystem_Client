@@ -31,7 +31,8 @@ export function Sidebar({ open, onClose }: Readonly<SidebarProps>) {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const userRole = useAuthStore(s => s.user?.role);
-    const isAdmin = userRole === 'Admin';
+    // UserRole.Admin is 2
+    const isAdmin = userRole === 2;
 
     return (
         <Drawer

@@ -8,7 +8,7 @@ import { useAuthStore } from '../../auth/store/authStore'
 export default function UserCreateView() {
     const { t } = useTranslation()
     const navigate = useNavigate()
-    const isAdmin = useAuthStore(s => s.user?.role === 'Admin')
+    const isAdmin = useAuthStore(s => s.user?.role === 2)
 
     if (!isAdmin) return null
 
@@ -18,9 +18,9 @@ export default function UserCreateView() {
         ...queries.create,
         onSuccess: async (result, variables, context) => {
             if (queries.create.onSuccess) {
-                await queries.create.onSuccess(result, variables, context)
+                // calls onSuccess with no args as per definition in createCrudQueries
+                await (queries.create.onSuccess as any)()
             }
-
             navigate({ to: userModule.routes.list.to })
         }
     })
@@ -31,7 +31,15 @@ export default function UserCreateView() {
             submitLabel={t('user.createUser')}
             isPending={isPending}
             error={error as Error}
-            onSubmit={(data) => mutate(data)}
+            onSubmit={(data) => {
+                mutate({
+                    userName: data.username,
+                    email: data.email,
+                    password: 'ChangeMe123!', // Default password for now
+                    // 2 = Admin, 1 = Employee
+                    role: data.role === 'Admin' ? 2 : 1
+                })
+            }}
             onCancel={() => navigate({ to: userModule.routes.list.to })}
         />
     )

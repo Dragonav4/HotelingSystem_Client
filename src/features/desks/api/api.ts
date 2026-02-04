@@ -12,7 +12,11 @@ export const desksApi = {
         const skip = page * size
         const take = size
         const r = await http.get('/desks', { params: { skip, take } })
-        return r.data
+        return {
+            items: r.data?.items ?? [],
+            totalCount: r.data?.totalCount ?? 0,
+            actions: r.data?.actions ?? 0
+        }
     },
 
     async get(id: string): Promise<Desk> {

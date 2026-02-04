@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { http } from '../../../shared/api'
 
-export type User = { id: string; email: string; name?: string; picture?: string | null; role?: string }
+export type User = { id: string; email: string; name?: string; picture?: string | null; role?: number }
 
 type AuthStore = {
     user: User | null
@@ -48,7 +48,9 @@ export const auth = {
             auth.signIn(response.data);
             return response.data;
         } catch (error) {
-            auth.signOut();
+            // Only clear local state, DO NOT redirect to logout endpoint to avoid infinite loop
+            // if the user is already not authenticated (401).
+            useAuthStore.getState().signOut();
             return null;
         }
     }
